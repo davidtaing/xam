@@ -18,14 +18,14 @@ export function LoginForm() {
           />
         </div>
         <div className="flex flex-col gap-2">
-          <label htmlFor="email" className="text-sm">
-            Email
+          <label htmlFor="username" className="text-sm">
+            Username
           </label>
           <input
-            id="email"
-            name="email"
+            id="username"
+            name="username"
             className="rounded-md border border-slate-900 px-4 py-2"
-            type="email"
+            type="username"
           />
         </div>
         <div className="flex flex-col gap-2">

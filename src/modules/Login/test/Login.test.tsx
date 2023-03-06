@@ -25,12 +25,12 @@ it("renders Branch Id label", () => {
   expect(branchIdLabel).toBeTruthy();
 });
 
-it("renders Email label", () => {
+it("renders Username label", () => {
   setupRender();
 
-  const emailLabel = screen.getByLabelText(/^email$/i);
+  const usernameLabel = screen.getByLabelText(/^username$/i);
 
-  expect(emailLabel).toBeTruthy();
+  expect(usernameLabel).toBeTruthy();
 });
 
 it("renders Password label", () => {
@@ -57,12 +57,12 @@ test("branch-id label is associated with branch-id input", async () => {
 test("email label is associated with email input", async () => {
   const { user } = setupRender();
 
-  const emailLabel = screen.getByLabelText(/^email$/i);
+  const usernameLabel = screen.getByLabelText(/^username$/i);
 
-  await user.click(emailLabel);
-  await user.keyboard("hello email");
+  await user.click(usernameLabel);
+  await user.keyboard("hello username");
 
-  const result = screen.getByDisplayValue(/^hello email$/i);
+  const result = screen.getByDisplayValue(/^hello username$/i);
 
   expect(result).toBeTruthy();
 });
