@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react";
 
 import Home from "@/pages";
 
-test("renders the login panel", () => {
+it("renders the login panel", () => {
   render(<Home />);
 
   const loginPanel = screen.getByLabelText(/^login panel$/i);
@@ -10,7 +10,7 @@ test("renders the login panel", () => {
   expect(loginPanel).toBeTruthy();
 });
 
-test("renders Branch Id label", () => {
+it("renders Branch Id label", () => {
   render(<Home />);
 
   const branchIdLabel = screen.getByLabelText(/^branch id$/i);
@@ -18,18 +18,21 @@ test("renders Branch Id label", () => {
   expect(branchIdLabel).toBeTruthy();
 });
 
-test("renders Email label", () => {
+it("renders Email label", () => {
   render(<Home />);
 
-  const branchIdLabel = screen.getByLabelText(/^email$/i);
+  const emailLabel = screen.getByLabelText(/^email$/i);
 
-  expect(branchIdLabel).toBeTruthy();
+  expect(emailLabel).toBeTruthy();
 });
 
-test("renders Password label", () => {
+it("renders Password label", () => {
   render(<Home />);
 
-  const branchIdLabel = screen.getByLabelText(/^password$/i);
+  const passwordLabel = screen.getByLabelText(/^password$/i);
+
+  expect(passwordLabel).toBeTruthy();
+});
 
   expect(branchIdLabel).toBeTruthy();
 });
