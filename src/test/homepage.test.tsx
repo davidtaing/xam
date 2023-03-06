@@ -3,16 +3,22 @@ import userEvent from "@testing-library/user-event";
 
 import Home from "@/pages";
 
-it("renders the login panel", () => {
-  render(<Home />);
+function setupRender() {
+  const renderResult = render(<Home />);
+  const user = userEvent.setup();
 
+  return { user, renderResult };
+}
+
+it("renders the login panel", () => {
+  setupRender();
   const loginPanel = screen.getByLabelText(/^login panel$/i);
 
   expect(loginPanel).toBeTruthy();
 });
 
 it("renders Branch Id label", () => {
-  render(<Home />);
+  setupRender();
 
   const branchIdLabel = screen.getByLabelText(/^branch id$/i);
 
@@ -20,7 +26,7 @@ it("renders Branch Id label", () => {
 });
 
 it("renders Email label", () => {
-  render(<Home />);
+  setupRender();
 
   const emailLabel = screen.getByLabelText(/^email$/i);
 
@@ -28,7 +34,7 @@ it("renders Email label", () => {
 });
 
 it("renders Password label", () => {
-  render(<Home />);
+  setupRender();
 
   const passwordLabel = screen.getByLabelText(/^password$/i);
 
@@ -36,9 +42,7 @@ it("renders Password label", () => {
 });
 
 test("branch-id label is associated with branch-id input", async () => {
-  const user = userEvent.setup();
-
-  render(<Home />);
+  const { user } = setupRender();
 
   const branchIdLabel = screen.getByLabelText(/^branch id$/i);
 
@@ -51,9 +55,7 @@ test("branch-id label is associated with branch-id input", async () => {
 });
 
 test("email label is associated with email input", async () => {
-  const user = userEvent.setup();
-
-  render(<Home />);
+  const { user } = setupRender();
 
   const emailLabel = screen.getByLabelText(/^email$/i);
 
@@ -66,9 +68,7 @@ test("email label is associated with email input", async () => {
 });
 
 test("password label is associated with password input", async () => {
-  const user = userEvent.setup();
-
-  render(<Home />);
+  const { user } = setupRender();
 
   const passwordLabel = screen.getByLabelText(/^password$/i);
 
