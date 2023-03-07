@@ -102,7 +102,15 @@ export function LoginForm() {
         >
           Login
         </button>
-        <p>{submissionError}</p>
+        {submissionError ? (
+          <div className="mt-4 rounded-md border border-red-400 bg-red-300 py-3 px-4 text-sm text-red-800">
+            {submissionError}
+          </div>
+        ) : (
+          <div className="invisible mt-4 rounded-md py-3 px-4 text-sm leading-10">
+            .
+          </div>
+        )}
       </form>
     </div>
   );
