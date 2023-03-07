@@ -79,3 +79,35 @@ test("password label is associated with password input", async () => {
 
   expect(result).toBeTruthy();
 });
+
+test("displays error when the branch id is not provided", async () => {
+  const { user } = setupRender();
+
+  const branchIdLabel = screen.getByLabelText(/^branch id$/i);
+  const usernameLabel = screen.getByLabelText(/^username$/i);
+
+  await user.click(branchIdLabel);
+  await user.click(usernameLabel);
+
+  const errorMessage = screen.getByText(/^please provide a branch id$/i);
+
+  expect(errorMessage).toBeTruthy();
+});
+
+test("displays error when the branch id is invalid: non numeric digits provided", async () => {
+  const { user } = setupRender();
+
+  const branchIdLabel = screen.getByLabelText(/^branch id$/i);
+  const usernameLabel = screen.getByLabelText(/^username$/i);
+
+  await user.click(branchIdLabel);
+  await user.keyboard("invalid branch id");
+
+  await user.click(usernameLabel);
+
+  const errorMessage = screen.getByText(
+    /^please ensure the Branch id is a numeric digit value/i
+  );
+
+  expect(errorMessage).toBeTruthy();
+});

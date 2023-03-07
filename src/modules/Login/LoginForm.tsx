@@ -5,7 +5,15 @@ import { z } from "zod";
 import { users } from "../../../design samples/data/users_data";
 
 export const loginFormSchema = z.object({
-  branchId: z.coerce.number().int().positive(),
+  branchId: z
+    .string({
+      invalid_type_error: "Branch id is not a number",
+    })
+    .min(1, "Please provide a branch id")
+    .regex(
+      /\d+/,
+      "Please ensure the Branch id is a numeric digit value (0-9)."
+    ),
   userName: z.string(),
   password: z.string(),
 });
@@ -19,13 +27,14 @@ export function LoginForm() {
     formState: { errors },
   } = useForm<LoginFormValues>({
     resolver: zodResolver(loginFormSchema),
+    mode: "onBlur",
   });
 
   const onSubmit = (data: LoginFormValues) => {
     users.forEach((user) => {
       // contrived example, so I'm not too bothered
       // with proper implementation here.
-      const branchIdMatch = data.branchId === user.branchId;
+      const branchIdMatch = data.branchId === user.branchId.toString();
       const userNameMatch = data.userName === user.userName;
       const passwordMatch = data.password === user.password;
 
@@ -54,7 +63,9 @@ export function LoginForm() {
             {...register("branchId")}
             className="rounded-md border border-slate-900 px-4 py-2"
           />
+          <span className="text-red-500">{errors.branchId?.message}</span>
         </div>
+
         <div className="flex flex-col gap-2">
           <label htmlFor="userName" className="text-sm">
             Username
@@ -65,6 +76,7 @@ export function LoginForm() {
             {...register("userName")}
             className="rounded-md border border-slate-900 px-4 py-2"
           />
+          <span className="text-red-500">{errors.userName?.message}</span>
         </div>
         <div className="flex flex-col gap-2">
           <label htmlFor="password" className="text-sm">
@@ -76,6 +88,7 @@ export function LoginForm() {
             {...register("password")}
             className="rounded-md border border-slate-900 px-4 py-2"
           />
+          <span className="text-red-500">{errors.password?.message}</span>
         </div>
         <button
           type="submit"
@@ -83,10 +96,6 @@ export function LoginForm() {
         >
           Login
         </button>
-
-        {errors.branchId?.message}
-        {errors.userName?.message}
-        {errors.password?.message}
       </form>
     </div>
   );
