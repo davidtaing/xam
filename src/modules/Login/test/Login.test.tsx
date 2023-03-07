@@ -1,7 +1,11 @@
-import { render, screen } from "@testing-library/react";
+import { render, renderHook, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
 import { LoginForm } from "../LoginForm";
+
+import { useRouter } from "next/router";
+import mockRouter from "next-router-mock";
+jest.mock("next/router", () => require("next-router-mock"));
 
 function setupRender() {
   const renderResult = render(<LoginForm />);
@@ -163,4 +167,28 @@ test("displays error upon submission error", async () => {
   );
 
   expect(errorMessage).toBeTruthy();
+});
+
+test("redirects user when login is successful", async () => {
+  const { user } = setupRender();
+  const { result } = renderHook(() => {
+    return useRouter();
+  });
+
+  const branchIdLabel = screen.getByLabelText(/^branch id$/i);
+  await user.click(branchIdLabel);
+  await user.keyboard("10001");
+
+  const usernameLabel = screen.getByLabelText(/^username$/i);
+  await user.click(usernameLabel);
+  await user.keyboard("testuser01");
+
+  const passwordLabel = screen.getByLabelText(/^password$/i);
+  await user.click(passwordLabel);
+  await user.keyboard("pa55w0rd001");
+
+  const submitButton = screen.getByRole("button", { name: /login/i });
+  await user.click(submitButton);
+
+  expect(result.current).toMatchObject({ asPath: "/dashboard" });
 });

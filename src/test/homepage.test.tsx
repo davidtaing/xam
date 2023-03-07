@@ -3,6 +3,10 @@ import userEvent from "@testing-library/user-event";
 
 import Home from "@/pages";
 
+import { useRouter } from "next/router";
+import mockRouter from "next-router-mock";
+jest.mock("next/router", () => require("next-router-mock"));
+
 function setupRender() {
   const renderResult = render(<Home />);
   const user = userEvent.setup();

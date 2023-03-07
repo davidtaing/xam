@@ -4,6 +4,7 @@ import { z } from "zod";
 
 import { loginMutation } from "./LoginService";
 import { useState } from "react";
+import { useRouter } from "next/router";
 
 export const loginFormSchema = z.object({
   branchId: z
@@ -22,6 +23,7 @@ export const loginFormSchema = z.object({
 export type LoginFormValues = z.infer<typeof loginFormSchema>;
 
 export function LoginForm() {
+  const router = useRouter();
   const [submissionError, setSubmissionError] = useState("");
   const {
     register,
@@ -35,6 +37,7 @@ export function LoginForm() {
   const onLoginFormSubmit = async (data: LoginFormValues) => {
     try {
       await loginMutation(data);
+      router.push("/dashboard");
     } catch (err: any) {
       setSubmissionError(err.message);
     }
