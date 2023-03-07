@@ -1,7 +1,7 @@
 import { render, renderHook, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
-import { LoginForm } from "../LoginForm";
+import { LoginForm, LoginFormValues } from "../LoginForm";
 
 import { useRouter } from "next/router";
 import mockRouter from "next-router-mock";
@@ -12,6 +12,37 @@ function setupRender() {
   const user = userEvent.setup();
 
   return { user, renderResult };
+}
+
+async function setupRenderAndLogin({
+  branchId,
+  userName,
+  password,
+}: LoginFormValues) {
+  const { user, renderResult } = setupRender();
+
+  const branchIdLabel = screen.getByLabelText(/^branch id$/i);
+  await user.click(branchIdLabel);
+  await user.keyboard(branchId);
+
+  const usernameLabel = screen.getByLabelText(/^username$/i);
+  await user.click(usernameLabel);
+  await user.keyboard(userName);
+
+  const passwordLabel = screen.getByLabelText(/^password$/i);
+  await user.click(passwordLabel);
+  await user.keyboard(password);
+
+  const submitButton = screen.getByRole("button", { name: /login/i });
+
+  return {
+    user,
+    renderResult,
+    branchIdLabel,
+    usernameLabel,
+    passwordLabel,
+    submitButton,
+  };
 }
 
 test("smoke test if it renders", () => {
@@ -145,21 +176,14 @@ test("display error when password is not provided", async () => {
 });
 
 test("displays error upon submission error", async () => {
-  const { user } = setupRender();
+  const input = {
+    branchId: "00000",
+    userName: "invalid username",
+    password: "invalid password",
+  };
 
-  const branchIdLabel = screen.getByLabelText(/^branch id$/i);
-  await user.click(branchIdLabel);
-  await user.keyboard("00000");
+  const { user, submitButton } = await setupRenderAndLogin(input);
 
-  const usernameLabel = screen.getByLabelText(/^username$/i);
-  await user.click(usernameLabel);
-  await user.keyboard("invalid username");
-
-  const passwordLabel = screen.getByLabelText(/^password$/i);
-  await user.click(passwordLabel);
-  await user.keyboard("invalid password");
-
-  const submitButton = screen.getByRole("button", { name: /login/i });
   await user.click(submitButton);
 
   const errorMessage = screen.getByText(
@@ -170,24 +194,18 @@ test("displays error upon submission error", async () => {
 });
 
 test("redirects user when login is successful", async () => {
-  const { user } = setupRender();
   const { result } = renderHook(() => {
     return useRouter();
   });
 
-  const branchIdLabel = screen.getByLabelText(/^branch id$/i);
-  await user.click(branchIdLabel);
-  await user.keyboard("10001");
+  const input = {
+    branchId: "10001",
+    userName: "testuser01",
+    password: "pa55w0rd001",
+  };
 
-  const usernameLabel = screen.getByLabelText(/^username$/i);
-  await user.click(usernameLabel);
-  await user.keyboard("testuser01");
+  const { user, submitButton } = await setupRenderAndLogin(input);
 
-  const passwordLabel = screen.getByLabelText(/^password$/i);
-  await user.click(passwordLabel);
-  await user.keyboard("pa55w0rd001");
-
-  const submitButton = screen.getByRole("button", { name: /login/i });
   await user.click(submitButton);
 
   expect(result.current).toMatchObject({ asPath: "/dashboard" });
