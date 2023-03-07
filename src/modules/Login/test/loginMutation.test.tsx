@@ -1,4 +1,4 @@
-import { loginService } from "../LoginForm";
+import { loginMutation } from "../LoginService";
 
 it("returns user when login is successful", async () => {
   const input = {
@@ -16,7 +16,7 @@ it("returns user when login is successful", async () => {
     position: "Developer",
   };
 
-  const result = await loginService(input);
+  const result = await loginMutation(input);
 
   expect(result).toEqual(expected);
 });
@@ -49,7 +49,7 @@ it.each([
 ])(
   "throws 'Either the Branch id, Username or Password is incorrect.' error $case",
   async ({ input }) => {
-    await expect(async () => await loginService(input)).rejects.toThrow(
+    await expect(async () => await loginMutation(input)).rejects.toThrow(
       /^Either the Branch id, username or password is incorrect.$/
     );
   }

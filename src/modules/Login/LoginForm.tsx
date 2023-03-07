@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
-import { users } from "../../../design samples/data/users_data";
+import { loginMutation } from "./LoginService";
 
 export const loginFormSchema = z.object({
   branchId: z
@@ -20,29 +20,8 @@ export const loginFormSchema = z.object({
 
 export type LoginFormValues = z.infer<typeof loginFormSchema>;
 
-export async function loginService(data: LoginFormValues) {
-  let userResult = null;
-
-  for (const user of users) {
-    const branchIdMatch = data.branchId === user.branchId.toString();
-    const userNameMatch = data.userName === user.userName;
-    const passwordMatch = data.password === user.password;
-
-    if (branchIdMatch && userNameMatch && passwordMatch) {
-      const { password, ...restUser } = user;
-      userResult = restUser;
-      break;
-    }
-  }
-
-  if (!userResult)
-    throw new Error("Either the Branch id, username or password is incorrect.");
-
-  return userResult;
-}
-
 export function onLoginFormSubmit(data: LoginFormValues) {
-  loginService(data);
+  loginMutation(data);
 }
 
 export function LoginForm() {
