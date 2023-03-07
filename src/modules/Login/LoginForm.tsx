@@ -14,8 +14,8 @@ export const loginFormSchema = z.object({
       /\d+/,
       "Please ensure the Branch id is a numeric digit value (0-9)."
     ),
-  userName: z.string(),
-  password: z.string(),
+  userName: z.string().min(1, "Please provide a username"),
+  password: z.string().min(1, "Please provide a password"),
 });
 
 export type LoginFormValues = z.infer<typeof loginFormSchema>;

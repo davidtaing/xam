@@ -111,3 +111,31 @@ test("displays error when the branch id is invalid: non numeric digits provided"
 
   expect(errorMessage).toBeTruthy();
 });
+
+test("displays error when username is not provided", async () => {
+  const { user } = setupRender();
+
+  const usernameLabel = screen.getByLabelText(/^username$/i);
+  const passwordLabel = screen.getByLabelText(/^password$/i);
+
+  await user.click(usernameLabel);
+  await user.click(passwordLabel);
+
+  const errorMessage = screen.getByText(/^please provide a username$/i);
+
+  expect(errorMessage).toBeTruthy();
+});
+
+test("display error when password is not provided", async () => {
+  const { user } = setupRender();
+
+  const passwordLabel = screen.getByLabelText(/^password$/i);
+  const usernameLabel = screen.getByLabelText(/^username$/i);
+
+  await user.click(passwordLabel);
+  await user.click(usernameLabel);
+
+  const errorMessage = screen.getByText(/^please provide a password$/i);
+
+  expect(errorMessage).toBeTruthy();
+});
