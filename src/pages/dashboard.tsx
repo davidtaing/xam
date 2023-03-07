@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Router from "next/router";
 import {
   ColumnDef,
@@ -24,8 +24,6 @@ const defaultData = users.map(
 );
 
 type Employee = (typeof defaultData)[number];
-
-const columnHelper = createColumnHelper<Employee>();
 
 function EmployeeTable() {
   const [employees, setEmployees] = useState<Array<Employee>>(defaultData);
@@ -117,9 +115,9 @@ function EmployeeTable() {
 function Dashboard() {
   const { user } = useUserContext();
 
-  // useEffect(() => {
-  //   if (!user) Router.push("/");
-  // }, [user]);
+  useEffect(() => {
+    if (!user) Router.push("/");
+  }, [user]);
 
   return (
     <div aria-label="Dashboard">
