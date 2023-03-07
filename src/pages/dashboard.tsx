@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useMemo, useState } from "react";
 import Router from "next/router";
 import {
+  ColumnDef,
   createColumnHelper,
   flexRender,
   getCoreRowModel,
@@ -10,10 +11,11 @@ import {
 import { useUserContext } from "@/modules/Auth/Users";
 
 import { users } from "design samples/data/users_data";
+import React from "react";
 
 const defaultData = users.map(
   ({ branchId, userName, firstName, middleName, lastName, position }, idx) => ({
-    index: idx + 1,
+    number: idx + 1,
     branchId,
     userName,
     name: `${firstName} ` + `${middleName} ` + `${lastName}`,
@@ -28,45 +30,50 @@ const columnHelper = createColumnHelper<Employee>();
 function EmployeeTable() {
   const [employees, setEmployees] = useState<Array<Employee>>(defaultData);
 
-  const columns = [
-    columnHelper.accessor((row) => row.index + 1, {
-      id: "number",
-      cell: (info) => info.getValue(),
-      header: () => "#",
-    }),
-    columnHelper.accessor("branchId", {
-      header: () => "Branch ID",
-    }),
-    columnHelper.accessor("userName", {
-      header: () => "Username",
-    }),
-    columnHelper.accessor("name", {
-      header: () => "Name",
-    }),
-    columnHelper.accessor("position", {
-      header: () => "Position",
-    }),
-    columnHelper.display({
-      id: "actions",
-      header: () => "Action",
-      cell: ({ row }) => (
-        <button
-          className="rounded border bg-slate-300 px-2 py-1 uppercase hover:bg-slate-400"
-          onClick={() => {
-            const filteredEmployees = employees
-              .map((employee) => employee)
-              .filter(
-                (employee) => employee.userName !== row.getValue("userName")
-              );
+  const columns = useMemo<ColumnDef<Employee>[]>(
+    () => [
+      {
+        accessorKey: "#",
+        accessorFn: (row) => row.number,
+      },
+      {
+        accessorKey: "Branch Id",
+        accessorFn: (row) => row.branchId,
+      },
+      {
+        accessorKey: "Username",
+        accessorFn: (row) => row.userName,
+      },
+      {
+        accessorKey: "Name",
+        accessorFn: (row) => row.name,
+      },
+      {
+        accessorKey: "Position",
+        accessorFn: (row) => row.position,
+      },
+      {
+        accessorKey: "Action",
+        cell: ({ row }) => (
+          <button
+            className="rounded border bg-slate-300 px-2 py-1 uppercase hover:bg-slate-400"
+            onClick={() => {
+              const filteredEmployees = employees
+                .map((employee) => employee)
+                .filter(
+                  (employee) => employee.userName !== row.original.userName
+                );
 
-            setEmployees(filteredEmployees);
-          }}
-        >
-          remove
-        </button>
-      ),
-    }),
-  ];
+              setEmployees(filteredEmployees);
+            }}
+          >
+            remove
+          </button>
+        ),
+      },
+    ],
+    [employees]
+  );
 
   const table = useReactTable({
     data: employees,
