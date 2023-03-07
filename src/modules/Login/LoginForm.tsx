@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -6,6 +6,7 @@ import { z } from "zod";
 
 import { loginMutation } from "./LoginService";
 import { useUserContext } from "../Auth/Users";
+import { TextInput } from "@/common/components/TextInput";
 
 export const loginFormSchema = z.object({
   branchId: z
@@ -56,49 +57,28 @@ export function LoginForm() {
         onSubmit={handleSubmit(onLoginFormSubmit)}
         className="flex flex-col gap-2"
       >
-        <div className="flex flex-col gap-2">
-          <label htmlFor="branch-id" className="text-sm">
-            Branch id
-          </label>
-          <input
-            id="branch-id"
-            type="text"
-            {...register("branchId")}
-            className="rounded-md border border-slate-900 px-4 py-2"
-          />
-          <span className="m-h-5 text-sm text-red-500">
-            {errors.branchId?.message ?? <span className="invisible">.</span>}
-          </span>
-        </div>
+        <TextInput
+          id="branch-id"
+          label="Branch id"
+          error={errors.branchId?.message}
+          type="text"
+          {...register("branchId")}
+        />
+        <TextInput
+          id="userName"
+          label="Username"
+          error={errors.userName?.message}
+          type="text"
+          {...register("userName")}
+        />
+        <TextInput
+          id="password"
+          label="Password"
+          error={errors.password?.message}
+          type="password"
+          {...register("password")}
+        />
 
-        <div className="flex flex-col gap-2">
-          <label htmlFor="userName" className="text-sm">
-            Username
-          </label>
-          <input
-            id="userName"
-            type="text"
-            {...register("userName")}
-            className="rounded-md border border-slate-900 px-4 py-2"
-          />
-          <span className="text-sm text-red-500">
-            {errors.userName?.message ?? <span className="invisible">.</span>}
-          </span>
-        </div>
-        <div className="flex flex-col gap-2">
-          <label htmlFor="password" className="text-sm">
-            Password
-          </label>
-          <input
-            id="password"
-            type="password"
-            {...register("password")}
-            className="rounded-md border border-slate-900 px-4 py-2"
-          />
-          <span className="text-sm text-red-500">
-            {errors.password?.message ?? <span className="invisible">.</span>}
-          </span>
-        </div>
         <button
           type="submit"
           className="mt-4 rounded-md bg-blue-600 py-2 px-4 text-white hover:bg-blue-700 active:bg-blue-800"
