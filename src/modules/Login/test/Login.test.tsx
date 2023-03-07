@@ -2,13 +2,18 @@ import { render, renderHook, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
 import { LoginForm, LoginFormValues } from "../LoginForm";
+import { UserContextProvider } from "@/modules/Auth/Users";
 
 import { useRouter } from "next/router";
 import mockRouter from "next-router-mock";
 jest.mock("next/router", () => require("next-router-mock"));
 
 function setupRender() {
-  const renderResult = render(<LoginForm />);
+  const renderResult = render(
+    <UserContextProvider>
+      <LoginForm />
+    </UserContextProvider>
+  );
   const user = userEvent.setup();
 
   return { user, renderResult };

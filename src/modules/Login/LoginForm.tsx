@@ -1,10 +1,11 @@
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
 import { loginMutation } from "./LoginService";
-import { useState } from "react";
-import { useRouter } from "next/router";
+import { useUserContext } from "../Auth/Users";
 
 export const loginFormSchema = z.object({
   branchId: z
@@ -24,6 +25,7 @@ export type LoginFormValues = z.infer<typeof loginFormSchema>;
 
 export function LoginForm() {
   const router = useRouter();
+  const { user, setUser } = useUserContext();
   const [submissionError, setSubmissionError] = useState("");
   const {
     register,
@@ -36,7 +38,8 @@ export function LoginForm() {
 
   const onLoginFormSubmit = async (data: LoginFormValues) => {
     try {
-      await loginMutation(data);
+      const response = await loginMutation(data);
+      setUser(response);
       router.push("/dashboard");
     } catch (err: any) {
       setSubmissionError(err.message);
