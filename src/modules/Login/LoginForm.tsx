@@ -35,6 +35,9 @@ export async function loginService(data: LoginFormValues) {
     }
   }
 
+  if (!userResult)
+    throw new Error("Either the Branch id, username or password is incorrect.");
+
   return userResult;
 }
 
