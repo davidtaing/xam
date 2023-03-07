@@ -20,6 +20,28 @@ export const loginFormSchema = z.object({
 
 export type LoginFormValues = z.infer<typeof loginFormSchema>;
 
+export async function loginService(data: LoginFormValues) {
+  let userResult = null;
+
+  for (const user of users) {
+    const branchIdMatch = data.branchId === user.branchId.toString();
+    const userNameMatch = data.userName === user.userName;
+    const passwordMatch = data.password === user.password;
+
+    if (branchIdMatch && userNameMatch && passwordMatch) {
+      const { password, ...restUser } = user;
+      userResult = restUser;
+      break;
+    }
+  }
+
+  return userResult;
+}
+
+export function onLoginFormSubmit(data: LoginFormValues) {
+  loginService(data);
+}
+
 export function LoginForm() {
   const {
     register,
@@ -30,29 +52,16 @@ export function LoginForm() {
     mode: "onBlur",
   });
 
-  const onSubmit = (data: LoginFormValues) => {
-    users.forEach((user) => {
-      // contrived example, so I'm not too bothered
-      // with proper implementation here.
-      const branchIdMatch = data.branchId === user.branchId.toString();
-      const userNameMatch = data.userName === user.userName;
-      const passwordMatch = data.password === user.password;
-
-      if (branchIdMatch && userNameMatch && passwordMatch) {
-        alert("Login successful");
-      } else {
-        alert("failed to login");
-      }
-    });
-  };
-
   return (
     <div
       aria-label="Login Panel"
       className="m-auto max-w-xl border border-slate-900 p-8"
     >
       <h1 className="text-2xl font-medium">Login</h1>
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-8">
+      <form
+        onSubmit={handleSubmit(onLoginFormSubmit)}
+        className="flex flex-col gap-8"
+      >
         <div className="flex flex-col gap-2">
           <label htmlFor="branch-id" className="text-sm">
             Branch id
