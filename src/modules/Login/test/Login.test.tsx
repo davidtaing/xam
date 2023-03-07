@@ -139,3 +139,28 @@ test("display error when password is not provided", async () => {
 
   expect(errorMessage).toBeTruthy();
 });
+
+test("displays error upon submission error", async () => {
+  const { user } = setupRender();
+
+  const branchIdLabel = screen.getByLabelText(/^branch id$/i);
+  await user.click(branchIdLabel);
+  await user.keyboard("00000");
+
+  const usernameLabel = screen.getByLabelText(/^username$/i);
+  await user.click(usernameLabel);
+  await user.keyboard("invalid username");
+
+  const passwordLabel = screen.getByLabelText(/^password$/i);
+  await user.click(passwordLabel);
+  await user.keyboard("invalid password");
+
+  const submitButton = screen.getByRole("button", { name: /login/i });
+  await user.click(submitButton);
+
+  const errorMessage = screen.getByText(
+    /either the branch id, username or password is incorrect./i
+  );
+
+  expect(errorMessage).toBeTruthy();
+});

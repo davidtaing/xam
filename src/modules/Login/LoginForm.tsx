@@ -3,6 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
 import { loginMutation } from "./LoginService";
+import { useState } from "react";
 
 export const loginFormSchema = z.object({
   branchId: z
@@ -20,11 +21,8 @@ export const loginFormSchema = z.object({
 
 export type LoginFormValues = z.infer<typeof loginFormSchema>;
 
-export function onLoginFormSubmit(data: LoginFormValues) {
-  loginMutation(data);
-}
-
 export function LoginForm() {
+  const [submissionError, setSubmissionError] = useState("");
   const {
     register,
     handleSubmit,
@@ -33,6 +31,14 @@ export function LoginForm() {
     resolver: zodResolver(loginFormSchema),
     mode: "onBlur",
   });
+
+  const onLoginFormSubmit = async (data: LoginFormValues) => {
+    try {
+      await loginMutation(data);
+    } catch (err: any) {
+      setSubmissionError(err.message);
+    }
+  };
 
   return (
     <div
@@ -87,6 +93,7 @@ export function LoginForm() {
         >
           Login
         </button>
+        <p>{submissionError}</p>
       </form>
     </div>
   );
