@@ -18,7 +18,7 @@ function Dashboard() {
   }, [user]);
 
   return (
-    <div aria-label="Dashboard">
+    <div aria-label="Dashboard" className="mx-auto max-w-3xl lg:max-w-7xl">
       <header className="item-center flex justify-between p-4">
         <h1 className="mx-0 my-auto inline-block align-middle text-lg">
           {user?.userName}
