@@ -8,7 +8,7 @@ it("returns user when login is successful", async () => {
   };
 
   const expected = {
-    branchId: 10001,
+    branchId: "10001",
     userName: "testuser01",
     firstName: "John",
     middleName: "Sanchez",

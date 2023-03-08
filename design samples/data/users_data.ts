@@ -1,6 +1,6 @@
 export const users = [
   {
-    branchId: 10001,
+    branchId: "10001",
     userName: "testuser01",
     password: "pa55w0rd001",
     firstName: "John",
@@ -9,7 +9,7 @@ export const users = [
     position: "Developer",
   },
   {
-    branchId: 10002,
+    branchId: "10002",
     userName: "testuser02",
     password: "pa55w0rd002",
     firstName: "Ricardo",
@@ -18,7 +18,7 @@ export const users = [
     position: "Lead Developer",
   },
   {
-    branchId: 10003,
+    branchId: "10003",
     userName: "testuser03",
     password: "pa55w0rd003",
     firstName: "Gol",

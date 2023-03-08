@@ -1,5 +1,5 @@
-import { users } from "../../../../design samples/data/users_data";
+import { Employee } from "../employees/common/types";
 
-type UserWithPassword = (typeof users)[number];
+type UserWithPassword = Employee;
 
 export type User = Omit<UserWithPassword, "password">;
