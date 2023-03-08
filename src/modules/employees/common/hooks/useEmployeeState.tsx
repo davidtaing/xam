@@ -1,8 +1,7 @@
 import { useState } from "react";
 
 import { Employee } from "../types";
-
-import { users } from "design samples/data/users_data";
+import { users } from "../data";
 
 export function useEmployeeState() {
   const [employees, setEmployees] = useState<Employee[]>(users);

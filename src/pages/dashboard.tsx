@@ -10,7 +10,7 @@ import {
 import { useEmployeeState } from "@/modules/employees/common";
 
 function Dashboard() {
-  const { user } = useUserContext();
+  const { user, setUser } = useUserContext();
   const { employees, setEmployees } = useEmployeeState();
 
   useEffect(() => {
@@ -33,7 +33,10 @@ function Dashboard() {
       <main className="grid w-full grid-cols-4 gap-8 md:grid-cols-8 lg:grid-cols-12">
         <AddEmployeeForm
           onsubmit={(data: AddEmployeeFormValues): void => {
-            setEmployees([...employees, data]);
+            setEmployees([
+              ...employees,
+              { ...data, number: employees[employees.length].number + 1 },
+            ]);
           }}
         />
         <ViewEmployeesTable employees={employees} setEmployees={setEmployees} />

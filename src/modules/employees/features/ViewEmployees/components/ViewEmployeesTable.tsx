@@ -7,7 +7,7 @@ import {
 } from "@tanstack/react-table";
 import { Employee } from "@/modules/employees/common/types";
 
-type ViewEmployeesTableColumns = ColumnDef<Employee & { number: number }>[];
+type ViewEmployeesTableColumns = ColumnDef<Employee>[];
 
 export type ViewEmployeesTableProps = {
   employees: Employee[];
@@ -65,7 +65,7 @@ export function ViewEmployeesTable({
   );
 
   const table = useReactTable({
-    data: employees.map((employee, idx) => ({ ...employee, number: idx + 1 })),
+    data: employees,
     columns,
     getCoreRowModel: getCoreRowModel(),
   });
