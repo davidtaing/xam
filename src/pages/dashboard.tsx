@@ -3,6 +3,7 @@ import Router from "next/router";
 
 import { useUserContext } from "@/modules/users";
 import { ViewEmployeesTable } from "@/modules/employees/features/ViewEmployees";
+import { AddEmployeeForm } from "@/modules/employees/features/AddEmployee";
 
 function Dashboard() {
   const { user } = useUserContext();
@@ -25,6 +26,7 @@ function Dashboard() {
         </button>
       </header>
       <main className="p-4">
+        <AddEmployeeForm />
         <ViewEmployeesTable />
       </main>
     </div>
