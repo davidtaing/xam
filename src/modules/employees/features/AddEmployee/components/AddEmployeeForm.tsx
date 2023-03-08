@@ -16,7 +16,7 @@ export const addEmployeeFormSchema = z.object({
   userName: z.string().min(1, "Please provide a username"),
   password: z.string().min(10, "Password must be at least 10 characters long"),
   firstName: z.string().min(1, "Please provide a first name"),
-  middleName: z.string().optional(),
+  middleName: z.string(),
   lastName: z.string().min(1, "Please provide a last name"),
   position: z.string().min(1, "Please provide a job position"),
 });
