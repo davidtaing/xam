@@ -1,29 +1,24 @@
-import { useState, useMemo } from "react";
+import { useMemo } from "react";
 import {
   ColumnDef,
   useReactTable,
   getCoreRowModel,
   flexRender,
 } from "@tanstack/react-table";
+import { Employee } from "@/modules/employees/common/types";
 
-import { users } from "design samples/data/users_data";
+type ViewEmployeesTableColumns = ColumnDef<Employee & { number: number }>[];
 
-const formatRawData = users.map(
-  ({ branchId, userName, firstName, middleName, lastName, position }, idx) => ({
-    number: idx + 1,
-    branchId,
-    userName,
-    name: `${firstName} ` + `${middleName} ` + `${lastName}`,
-    position,
-  })
-);
+export type ViewEmployeesTableProps = {
+  employees: Employee[];
+  setEmployees: (employees: Employee[]) => void;
+};
 
-export type Employee = (typeof formatRawData)[number];
-
-export function ViewEmployeesTable() {
-  const [employees, setEmployees] = useState<Array<Employee>>(formatRawData);
-
-  const columns = useMemo<ColumnDef<Employee>[]>(
+export function ViewEmployeesTable({
+  employees,
+  setEmployees,
+}: ViewEmployeesTableProps) {
+  const columns = useMemo<ViewEmployeesTableColumns>(
     () => [
       {
         accessorKey: "#",
@@ -39,7 +34,8 @@ export function ViewEmployeesTable() {
       },
       {
         accessorKey: "Name",
-        accessorFn: (row) => row.name,
+        accessorFn: (row) =>
+          `${row.firstName} ` + `${row.middleName} ` + `${row.lastName}`,
       },
       {
         accessorKey: "Position",
@@ -65,11 +61,11 @@ export function ViewEmployeesTable() {
         ),
       },
     ],
-    [employees]
+    [employees, setEmployees]
   );
 
   const table = useReactTable({
-    data: employees,
+    data: employees.map((employee, idx) => ({ ...employee, number: idx + 1 })),
     columns,
     getCoreRowModel: getCoreRowModel(),
   });

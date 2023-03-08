@@ -23,11 +23,11 @@ export const addEmployeeFormSchema = z.object({
 
 export type AddEmployeeFormValues = z.infer<typeof addEmployeeFormSchema>;
 
-export function AddEmployeeForm() {
-  function onsubmit(data: AddEmployeeFormValues) {
-    console.log(data);
-  }
+export type AddEmployeeFormProps = {
+  onsubmit(data: AddEmployeeFormValues): void;
+};
 
+export function AddEmployeeForm({ onsubmit }: AddEmployeeFormProps) {
   const {
     register,
     handleSubmit,

@@ -3,10 +3,15 @@ import Router from "next/router";
 
 import { useUserContext } from "@/modules/users";
 import { ViewEmployeesTable } from "@/modules/employees/features/ViewEmployees";
-import { AddEmployeeForm } from "@/modules/employees/features/AddEmployee";
+import {
+  AddEmployeeForm,
+  AddEmployeeFormValues,
+} from "@/modules/employees/features/AddEmployee";
+import { useEmployeeState } from "@/modules/employees/common";
 
 function Dashboard() {
   const { user } = useUserContext();
+  const { employees, setEmployees } = useEmployeeState();
 
   useEffect(() => {
     if (!user) Router.push("/");
@@ -26,8 +31,12 @@ function Dashboard() {
         </button>
       </header>
       <main className="p-4">
-        <AddEmployeeForm />
-        <ViewEmployeesTable />
+        <AddEmployeeForm
+          onsubmit={(data: AddEmployeeFormValues): void => {
+            setEmployees([...employees, data]);
+          }}
+        />
+        <ViewEmployeesTable employees={employees} setEmployees={setEmployees} />
       </main>
     </div>
   );
