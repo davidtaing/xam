@@ -1,0 +1,1 @@
+export { ViewEmployeesTable } from "./components";
