@@ -5,8 +5,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
 import { TextInput } from "@/common/components/TextInput";
-import { loginMutation } from "./LoginService";
-import { useUserContext } from "../users";
+import { useUserContext } from "../../UserContext";
+import { loginMutation } from "../api";
 
 export const loginFormSchema = z.object({
   branchId: z

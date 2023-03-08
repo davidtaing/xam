@@ -1,6 +1,5 @@
-import { LoginFormValues } from "./LoginForm";
-
 import { users } from "design samples/data/users_data";
+import { LoginFormValues } from "../components/LoginForm";
 
 export async function loginMutation(data: LoginFormValues) {
   let userResult = null;
