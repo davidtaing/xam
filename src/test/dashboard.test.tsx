@@ -1,7 +1,7 @@
 import { render, renderHook, screen } from "@testing-library/react";
 
-import { UserContextProvider } from "@/modules/Auth/Users";
 import Dashboard from "@/pages/dashboard";
+import { UserContextProvider } from "@/modules/users";
 
 import { useRouter } from "next/router";
 import mockRouter from "next-router-mock";

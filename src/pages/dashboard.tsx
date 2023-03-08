@@ -8,10 +8,9 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 
-import { useUserContext } from "@/modules/Auth/Users";
+import { useUserContext } from "@/modules/users";
 
 import { users } from "design samples/data/users_data";
-import React from "react";
 
 const defaultData = users.map(
   ({ branchId, userName, firstName, middleName, lastName, position }, idx) => ({

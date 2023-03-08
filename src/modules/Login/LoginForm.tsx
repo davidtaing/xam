@@ -4,9 +4,9 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
-import { loginMutation } from "./LoginService";
-import { useUserContext } from "../Auth/Users";
 import { TextInput } from "@/common/components/TextInput";
+import { loginMutation } from "./LoginService";
+import { useUserContext } from "../users";
 
 export const loginFormSchema = z.object({
   branchId: z

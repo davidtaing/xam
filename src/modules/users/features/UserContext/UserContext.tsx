@@ -1,5 +1,5 @@
 import { PropsWithChildren, createContext, useContext, useState } from "react";
-import { User } from ".";
+import { User } from "../..";
 
 export type UserContextValues = {
   user: User | undefined;

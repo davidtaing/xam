@@ -1,8 +1,8 @@
 import { render, renderHook, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
+import { UserContextProvider } from "@/modules/users";
 import { LoginForm, LoginFormValues } from "../LoginForm";
-import { UserContextProvider } from "@/modules/Auth/Users";
 
 import { useRouter } from "next/router";
 import mockRouter from "next-router-mock";
