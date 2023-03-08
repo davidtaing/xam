@@ -30,7 +30,7 @@ function Dashboard() {
           Logout
         </button>
       </header>
-      <main className="p-4">
+      <main className="grid w-full grid-cols-4 gap-8 md:grid-cols-8 lg:grid-cols-12">
         <AddEmployeeForm
           onsubmit={(data: AddEmployeeFormValues): void => {
             setEmployees([...employees, data]);

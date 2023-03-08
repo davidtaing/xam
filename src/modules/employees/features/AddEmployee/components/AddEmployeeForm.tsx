@@ -39,7 +39,7 @@ export function AddEmployeeForm({ onsubmit }: AddEmployeeFormProps) {
 
   return (
     <form
-      className="max-w-sm rounded-lg bg-gray-300 p-8"
+      className="col-span-4 flex flex-col gap-2 rounded-lg bg-gray-300 p-8 md:col-span-3 lg:col-span-4"
       onSubmit={handleSubmit(onsubmit)}
     >
       <TextInput
