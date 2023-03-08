@@ -26,6 +26,9 @@ function Dashboard() {
         <button
           type="button"
           className="text-sn rounded-md bg-blue-600 py-1 px-2 text-white hover:bg-blue-700 active:bg-blue-800"
+          onClick={() => {
+            setUser(undefined);
+          }}
         >
           Logout
         </button>
