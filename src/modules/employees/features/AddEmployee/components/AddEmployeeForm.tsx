@@ -11,11 +11,11 @@ export const addEmployeeFormSchema = z.object({
       "Please ensure the Branch id is a numeric digit value (0-9)."
     ),
   userName: z.string().min(1, "Please provide a username"),
-  password: z.string().min(1, "Please provide a password"),
-  firstName: z.string().min(1),
-  middleName: z.string().min(1),
-  lastName: z.string().min(1),
-  position: z.string().min(1),
+  password: z.string().min(10, "Password must be at least 10 characters long"),
+  firstName: z.string().min(1, "Please provide a first name"),
+  middleName: z.string().optional(),
+  lastName: z.string().min(1, "Please provide a last name"),
+  position: z.string().min(1, "Please provide a job position"),
 });
 
 export type AddEmployeeFormValues = z.infer<typeof addEmployeeFormSchema>;
